@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
+  if(props.allFeedback === 0 ){
+    return <p>No feedback given</p>
+  }
+
+  return (
   <div>
     <h1>Statistics</h1>
     <p>good {props.good}</p>
@@ -10,6 +15,7 @@ const Statistics = (props) => {
     <p>average {props.getAverage}</p>
     <p>postive {props.getPositive} %</p>
   </div>
+  )
 }
 
 const App = () => {
@@ -44,6 +50,10 @@ const App = () => {
     return (good / allFeedback) * 100
   }
 
+  const isEmpty = () =>{
+    if(allFeedback === 0) return true 
+  }
+
   return (
     
     <div>
@@ -55,7 +65,13 @@ const App = () => {
         <button onClick={handleNeutralClick}>neutral</button>
         <button onClick={handleBadClick}>bad</button>
       </div>
-      <Statistics />
+      <Statistics 
+      good={good}
+      neutral={neutral}
+      bad={bad}
+      allFeedback={allFeedback}
+      getAverage={getAverage()}
+      getPositive={getPositive()}/>
     </div>
   )
 }
