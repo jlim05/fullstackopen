@@ -1,19 +1,34 @@
-const Course = (props) => {
-    const {course} = props
-    const total = course.parts.reduce((sum, part) => sum + part.exercises, 0)
+const Header = ({ name }) => <h2>{name}</h2>
 
-    return (
-        <div>
-            <h1>{course.name}</h1>
-            {course.parts.map(part =>
-                <p key={part.id}>
-                    {part.name} {part.exercises}
-                </p>
-            )}
-            <p><strong>total of {total} exercises</strong></p>
-        </div>
-        
-    )
+const Part = ({ part }) => (
+  <p>
+    {part.name} {part.exercises}
+  </p>
+)
+
+const Content = ({ parts }) => (
+  <>
+    {parts.map(part =>
+      <Part key={part.id} part={part} />
+    )}
+  </>
+)
+
+const Total = ({ parts }) => {
+  let total = 0
+  parts.forEach(part => {
+    total += part.exercises
+  })
+
+  return <p><strong>total of {total} exercises</strong></p>
 }
+
+const Course = ({ course }) => (
+  <div>
+    <Header name={course.name} />
+    <Content parts={course.parts} />
+    <Total parts={course.parts} />
+  </div>
+)
 
 export default Course
