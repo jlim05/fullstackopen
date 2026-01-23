@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -33,9 +34,14 @@ const App = () => {
       return  
     }
     
-      setPersons(persons.concat(personObject))
-      setNewName('') 
-      setNewNumber('')
+    axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        console.log("Person added")
+        setPersons(persons.concat(response.data))
+        setNewName('') 
+        setNewNumber('')
+      })
   }
 
 
