@@ -18,6 +18,24 @@ const App = () => {
     })
   }, [])
 
+  const deletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+
+    const confirmDelete = window.confirm(
+      `Delete ${person.name}`
+    )
+
+    if (confirmDelete) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(prevPersons =>
+            prevPersons.filter(p => p.id !== id)
+          )
+        })
+    }
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
@@ -27,23 +45,17 @@ const App = () => {
       number: newNumber
     }
 
-    const nameExist = persons.some(
+    const existingPerson= persons.some(
       person => person.name.toLowerCase().trim() === newName.toLowerCase().trim()
     )
 
-    if(nameExist) {
+    if(existingPerson) {
       alert(`${newName} is already added to phonebook`)
       return  
     }
     
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
-        console.log("Person added")
-        setPersons(persons.concat(response.data))
-        setNewName('') 
-        setNewNumber('')
-      })
+    personService
+      .update()
   }
 
 
@@ -82,7 +94,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons persons={personToShow}/>
+      <Persons persons={personToShow} deletePerson={deletePerson}/>
       
     </div>
   )
