@@ -41,6 +41,8 @@ const App = () => {
     if (existingPerson) {
       if (window.confirm(`${newName} is already in phonebook. Replace the old number?`)) {
         const updatedPerson = { ...existingPerson, number: newNumber }
+        const personName = existingPerson.name
+
         personService
           .update(existingPerson.id, updatedPerson)
           .then(returnedPerson=> {
@@ -48,6 +50,12 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+        .catch(error =>{
+          setNotification(`Information of ${personName} has already been removed from the server`)
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
+        })
       }
     } else {
       const newPerson = { name: newName, number: newNumber }
