@@ -16,8 +16,8 @@ const App = () => {
   useEffect(() => {
     personService
       .getAll()
-      .then(response => {
-        setPersons(response.data)
+      .then(data => {
+        setPersons(data)
       })
   }, [])
 
@@ -43,8 +43,7 @@ const App = () => {
         const updatedPerson = { ...existingPerson, number: newNumber }
         personService
           .update(existingPerson.id, updatedPerson)
-          .then(response => {
-            const returnedPerson = response.data
+          .then(returnedPerson=> {
             setPersons(prevPersons => prevPersons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
             setNewName('')
             setNewNumber('')
@@ -57,6 +56,9 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           setNotification(`Added ${returnedPerson.name}`)
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
           setNewName('')
           setNewNumber('')
         })
