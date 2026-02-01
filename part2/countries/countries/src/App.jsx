@@ -48,8 +48,11 @@ const App = (props) => {
       ) : (
         <div>
           {filteredCountries.map(country => (
-            <div>
+            <div key={country.name.common}>
             {country.name.common}
+            <button onClick={() => setSearch(country.name.common)}>
+              show
+            </button>
             </div>
           ))}
         </div>
