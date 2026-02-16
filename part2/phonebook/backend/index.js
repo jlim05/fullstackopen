@@ -1,8 +1,11 @@
 const express = require('express')
 const app = express()
 const http = require('http')
+const morgan = require('morgan')
 
 app.use(express.json())
+app.use(morgan('tiny'))
+
 
 const generateId = () => {
   const maxId = persons.length > 0
