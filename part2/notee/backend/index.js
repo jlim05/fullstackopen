@@ -1,10 +1,9 @@
 const express = require('express')
 const app = express()
 const http = require('http')
-const cors = require('cors')
 
 app.use(express.json())
-app.use(cors())
+
 app.use(express.static('dist'))
 
 const generateId = () => {
